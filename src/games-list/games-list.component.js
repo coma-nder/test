@@ -1,89 +1,82 @@
-function gamesListCtrl() {
-  this.orderProp = 'Name.en';
+function gamesListCtrl($scope) {
+	this.currentPage = 1; // initial
+	this.per = 10; // initial
+
+	this.$onInit = function () {
+		this.games = angular.copy($scope.$ctrl.data.games);
+		this.setPage();
+	}
+
+	this.setPage = function() {
+    let filteredGames = [];
+    if (!$scope.query) {
+      filteredGames = this.games;
+    } else {
+      filteredGames = this.games.filter(game => $scope.query !== "" && game.Name.en.indexOf($scope.query) > -1);
+    }
+    let sortedGames = filteredGames.sort((a, b) => {
+      if (a.Name.en.toUpperCase() < b.Name.en.toUpperCase()) return -1;
+      if (a.Name.en.toUpperCase() > b.Name.en.toUpperCase()) return 1;
+      return 0;
+    });
+    if ($scope.orderProp === '-Name.en') {
+      sortedGames = sortedGames.reverse()
+    }
+		this.processedGames = sortedGames.slice((this.currentPage - 1) * this.per, this.currentPage * this.per);
+	}
+
+	// this.setPer = function(per) {
+	// 	this.per = per;
+	// }
+
+  this.setCurrentPage = function(page) {
+    this.currentPage = page;
+  }
 }
+
 module.exports = {
   template: `
-  <div class="container">
-    <div class="row text-center games-sort">
-      <div class="col-4">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroup-sizing-default">Search:</span>
-          </div>
-          <input ng-model="$ctrl.query.Name.en" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
-        </div>
+  <div class="games-info">
+    <div class="games-info__item">
+      <input ng-model="query"/>
+        <button ng-click="$ctrl.setPage()">Search</button>
       </div>
-
-      <div class="col-4">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <label class="input-group-text" for="inputGroupSelect01">Sort by:</label>
-          </div>
-          <select ng-model="$ctrl.orderProp" class="custom-select" id="inputGroupSelect01">
-            <option value="Name.en">A - Z</option>
-            <option value="-Name.en">Z - A</option>
-          </select>
-        </div>
-      </div>
-      <div class="col-4">
-        <p>Total games: <strong>{{ $ctrl.data.games.length }}</strong></p>
-      </div>
+    <div class="games-info__item">
+      <select ng-model="orderProp">
+        <option value="Name.en">A - Z</option>
+        <option value="-Name.en">Z - A</option>
+      </select>
+      <button ng-click="$ctrl.setPage()">Sort</button>
     </div>
-  
-    <ul class="row list-unstyled games-list">
-      <li ng-repeat="game in $ctrl.data.games | filter:$ctrl.query | orderBy:$ctrl.orderProp" class="col-3">
-        <div class="text-center">
-          <img src="{{game.ImageFullPath}}" class="img-fluid"/>
-          <p><strong>{{game.Name.en}}</strong></p>
-          <button class="btn btn-warning btn-block">Start</button>
-        </div>
-      </li>
-    </ul>
+    <div class="games-info__item">Total games: {{ $ctrl.data.games.length }}</div>
   </div>
+	  <ul class="games-list">
+	    <li
+	    	class="games-list__item"
+	      ng-repeat="game in $ctrl.processedGames"
+      >
+      <img src="{{game.ImageFullPath}}"/>
+	    	<p class="games-list__title">
+	    		{{game.Name.en}}
+        </p>
+        <a 
+	    			ng-href="https://www.gbchip.com/en/games/play/{{game.Url}}?demo=true"
+            target="_blank"
+            class="games-list__butt"
+    			>
+    				Start
+  				</a>
+	  	</li>
+	  </ul>
+    <pagination
+      data="$ctrl.games"
+      per="$ctrl.per"
+      currentPage="$ctrl.currentPage"
+    />
   `,
   controller: gamesListCtrl,
+  transclude: true,
   bindings: {
     data: '='
   }
 }
-
-// {
-//   "ID":"3192",
-//   "Image":"/gstatic/games/evosw/315/roulette.jpg",
-//   "Url":"998/104",
-//   "Name":{
-//     "en":"Roulettes",
-//     "ru":"Рулетки"
-//   },
-//   "Description":[
-
-//   ],
-//   "MobileUrl":"998/104",
-//   "Branded":0,
-//   "SuperBranded":0,
-//   "hasDemo":0,
-//   "CategoryID":[
-//     "37",
-//     "33"
-//   ],
-//   "SortPerCategory":{
-//     "33":0,
-//     "37":0
-//   },
-//   "MerchantID":"998",
-//   "AR":"16:9",
-//   "IDCountryRestriction":"23",
-//   "Sort":"100065",
-//   "PageCode":"104",
-//   "MobilePageCode":"104",
-//   "MobileAndroidPageCode":null,
-//   "MobileWindowsPageCode":null,
-//   "ExternalCode":null,
-//   "MobileExternalCode":null,
-//   "ImageFullPath":"https://static.egamings.com/games/evosw/roulette.jpg",
-//   "WorkingHours":null,
-//   "LaunchCode":"104",
-//   "isRestricted":false
-// }
-
-// https://www.gbchip.com/en/games/play/991/815?demo=true

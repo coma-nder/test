@@ -5,13 +5,10 @@ export default function routes($stateProvider) {
   .state('games', {
     url: '/',
     template: `
-    <div class="container">
-      <div class="page-header">
-        <h3>-= very cool casino =-</h3>
-      </div>
-      <pagination data="$resolve.games.data"></pagination>
-      <games-list data="$resolve.games.data"></games-list>
+    <div class="games-header"
+      <h3> very cool casino </h3>
     </div>
+      <games-list data="$resolve.games.data"></games-list>
     `,
     resolve: {
       games: ['GamesService', (GamesService) => {

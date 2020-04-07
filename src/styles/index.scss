@@ -1,28 +1,88 @@
 body {
-    background-color: #232323;
+    background-color: #323232;
 }
-.page-header {
-    margin: 2em 0;
+.games-header {
     text-align: center;
     text-transform: uppercase;
-    color: #beb318;
-}
-.row.games-sort {
-    margin: 1em 0;
-}
-.row.games-sort p {
-    color: #beb318;
-    font-size: 1.5em;
-}
-ul.games-list li {
-    margin-bottom: 2em;
-    padding-bottom: 1em;
-    color: #beb318;
-}
-ul.games-list li img {
-    margin-bottom: 1em;
-}
-ul.games-list .btn-warning {
+    font-size: 40px;
+    margin-bottom: 30px;
+    color: #c9ad10;
     font-weight: bold;
-    text-transform: uppercase;
 }
+.games-info {
+    width: 30%;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: row wrap;
+    margin-bottom: 20px;
+    color: #c9ad10;
+    font-weight: bold;
+
+    &__item {
+        margin-right: 20px;
+    }
+    &__item:first-child {
+        margin-left: 10px;
+    }
+}
+.games-list {
+    display: flex;
+    flex-flow: row wrap;
+      margin: 0 40px;
+      padding: 0;
+  
+    &__item {
+      display: block;
+      list-style: none;
+      width: 330px;
+      margin: 10px;
+      position: relative;
+      margin-bottom: 40px;
+    }
+
+    &__item img {
+        width: 100%;
+    }
+  
+    &__title {
+      text-align: center;
+      color: #c9ad10;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 0;
+      margin-bottom: 10px;
+    }
+    &__butt {
+        text-align: center;
+        display: block;
+        text-transform: uppercase;
+        font-size: 20px;
+        font-weight: bold;
+        background-color: #ebdb51;
+        text-decoration: none;
+        padding: 10px 0;
+        color: #000;
+    }
+  }
+  
+  .pagination {
+      display: flex;
+      flex-flow: row wrap;
+      
+  
+    &__item {
+      display: block;
+      width: 40px;
+      height: 20px;
+      margin: 10px 5px;
+      text-align: center;
+      border: 1px #c9ad10 solid;
+      color: #c9ad10;
+      cursor: pointer;
+  
+      &--current {
+        background: #c9ad10;
+        color: #000;
+      }
+    }
+  }
