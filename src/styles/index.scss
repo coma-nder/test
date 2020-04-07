@@ -1,0 +1,28 @@
+body {
+    background-color: #232323;
+}
+.page-header {
+    margin: 2em 0;
+    text-align: center;
+    text-transform: uppercase;
+    color: #beb318;
+}
+.row.games-sort {
+    margin: 1em 0;
+}
+.row.games-sort p {
+    color: #beb318;
+    font-size: 1.5em;
+}
+ul.games-list li {
+    margin-bottom: 2em;
+    padding-bottom: 1em;
+    color: #beb318;
+}
+ul.games-list li img {
+    margin-bottom: 1em;
+}
+ul.games-list .btn-warning {
+    font-weight: bold;
+    text-transform: uppercase;
+}
